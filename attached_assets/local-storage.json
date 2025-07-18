@@ -1,0 +1,53 @@
+{
+  "drizzle-version": "3.0.0",
+  "drizzle-playground": {
+    "state": {
+      "currentFile": "sql",
+      "drizzleValue": null,
+      "sqlValue": null,
+      "showRecordsAsJson": false,
+      "drizzleResult": "{\"json\":null}",
+      "sqlResult": "{\"json\":null}"
+    },
+    "version": 0
+  },
+  "drizzle-global": {
+    "state": {
+      "showCounts": false,
+      "flatSchemas": false,
+      "dataFormats": null,
+      "expandSubviews": false
+    },
+    "version": 0
+  },
+  "drizzle-db-41686211-postgresql://neondb_owner:npg_p7hRlVdQP6Uz@ep-falling-mountain-a5zip0u4.us-east-2.aws.neon.tech/neondb?sslmode=require": {
+    "state": {
+      "styleMode": "default",
+      "currentPage": "main",
+      "filterViews": {},
+      "isSidebarOpen": true,
+      "isShowSidebarContent": true,
+      "filtersVisible": false,
+      "sidebarWidth": 268,
+      "currentSchemaName": "public",
+      "currentTable": {
+        "id": "public.users",
+        "type": "table",
+        "name": "users",
+        "schema": "public",
+        "createdRecords": [],
+        "editedFields": [],
+        "filters": [],
+        "pagination": {
+          "limit": 50,
+          "offset": 0
+        },
+        "records": [],
+        "sort": null,
+        "columnSettings": {},
+        "historyId": "B70u3wNgkM_LfbLO9M5Jb"
+      }
+    },
+    "version": 1
+  }
+}
