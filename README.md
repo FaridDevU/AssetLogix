@@ -15,7 +15,7 @@
 - Vite  
 - TailwindCSS  
 - Drizzle ORM  
-- Replit (initial config)
+
 
  🚫 Security
 Sensitive files have been removed from this repository (`.env`, `cookies.txt`, `login_response.txt`).  
