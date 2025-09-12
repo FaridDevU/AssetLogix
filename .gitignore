@@ -71,3 +71,4 @@ login_response.txt
 
 # TypeScript
 *.tsbuildinfo
+.vercel

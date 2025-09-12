@@ -2,13 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/index.ts",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["server/**", "shared/**", "public/**"]
-      }
-    },
-    {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
@@ -19,19 +12,14 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/server/index.ts"
+      "dest": "/api/index.js"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "/dist/client/$1"
+      "dest": "/index.html"
     }
-  ],
-  "functions": {
-    "server/index.ts": {
-      "maxDuration": 30
-    }
-  },
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
