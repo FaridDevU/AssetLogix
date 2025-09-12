@@ -1,0 +1,9 @@
+{
+  "name": "Test Equipment",
+  "description": "Test equipment for Cypress testing",
+  "category": "Tools",
+  "status": "available",
+  "location": "Warehouse A",
+  "serialNumber": "TEST123456",
+  "purchaseDate": "2025-01-01"
+}

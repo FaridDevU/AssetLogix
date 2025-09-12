@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+    
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+    
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+    
+  --primary: 221 83% 53%;
+  --primary-foreground: 210 40% 98%;
+    
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 11%;
+    
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+    
+  --accent: 210 40% 96%;
+  --accent-foreground: 222 47% 11%;
+    
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+    
+  --success: 142 76% 36%;
+  --success-foreground: 210 40% 98%;
+    
+  --warning: 38 92% 50%;
+  --warning-foreground: 210 40% 98%;
+    
+  --info: 221 83% 53%;
+  --info-foreground: 210 40% 98%;
+    
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 221 83% 53%;
+  --radius: 0.75rem;
+  }
+  .dark {
+  --background: 222 47% 11%;
+  --foreground: 210 40% 98%;
+    
+  --card: 222 47% 11%;
+  --card-foreground: 210 40% 98%;
+    
+  --popover: 222 47% 11%;
+  --popover-foreground: 210 40% 98%;
+    
+  --primary: 217 91% 60%;
+  --primary-foreground: 222 47% 11%;
+    
+  --secondary: 217 32% 17%;
+  --secondary-foreground: 210 40% 98%;
+    
+  --muted: 217 32% 17%;
+  --muted-foreground: 215 20% 65%;
+    
+  --accent: 217 32% 17%;
+  --accent-foreground: 210 40% 98%;
+    
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 210 40% 98%;
+    
+  --success: 142 69% 58%;
+  --success-foreground: 210 40% 98%;
+    
+  --warning: 45 93% 47%;
+  --warning-foreground: 210 40% 98%;
+    
+  --info: 213 94% 68%;
+  --info-foreground: 222 47% 11%;
+    
+  --border: 217 32% 17%;
+  --input: 217 32% 17%;
+  --ring: 224 76% 48%;
+  --radius: 0.75rem;
+  }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Colores especiales */
+.bg-navy-900 {
+  background-color: #0F172A;
+}
+
+/* Gradientes y estilos adicionales */
+@layer utilities {
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-blue-500 to-indigo-600;
+  }
+  
+  .bg-gradient-secondary {
+    @apply bg-gradient-to-r from-purple-500 to-pink-500;
+  }
+  
+  .bg-gradient-success {
+    @apply bg-gradient-to-r from-green-400 to-emerald-500;
+  }
+  
+  .bg-gradient-warning {
+    @apply bg-gradient-to-r from-yellow-400 to-amber-500;
+  }
+  
+  .bg-gradient-danger {
+    @apply bg-gradient-to-r from-red-400 to-rose-500;
+  }
+  
+  .bg-gradient-blue {
+    @apply bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-600;
+  }
+  
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-indigo-600;
+  }
+  
+  .text-gradient-secondary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500;
+  }
+  
+  .card-shadow {
+    @apply shadow-lg hover:shadow-xl transition-shadow duration-300;
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  .glass-effect {
+    @apply bg-white/80 dark:bg-black/50 backdrop-blur-md border border-white/20 dark:border-white/10;
+  }
+}
+

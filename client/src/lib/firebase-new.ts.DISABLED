@@ -1,0 +1,119 @@
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, signInWithPopup, User as FirebaseUser } from "firebase/auth";
+
+// Tipo personalizado para GoogleUser
+export interface GoogleUser extends FirebaseUser {
+  email: string;
+  displayName: string | null;
+  uid: string;
+}
+
+// 🧪 FIREBASE CONDICIONALMENTE DESHABILITADO - Opción 1 implementada
+let firebaseApp: any = null;
+let auth: any = null;
+let provider: GoogleAuthProvider | null = null;
+
+if (
+  import.meta.env.VITE_FIREBASE_API_KEY &&
+  import.meta.env.VITE_FIREBASE_AUTH_DOMAIN &&
+  import.meta.env.VITE_FIREBASE_PROJECT_ID &&
+  import.meta.env.VITE_FIREBASE_STORAGE_BUCKET &&
+  import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID &&
+  import.meta.env.VITE_FIREBASE_APP_ID &&
+  import.meta.env.VITE_FIREBASE_API_KEY !== "your_firebase_api_key" // Evitar claves placeholder
+) {
+  console.log("✅ Variables de Firebase válidas encontradas - inicializando Firebase");
+  
+  const firebaseConfig = {
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+  };
+
+  firebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+  auth = getAuth(firebaseApp);
+  provider = new GoogleAuthProvider();
+} else {
+  console.warn("🚫 Variables de Firebase ausentes o usando placeholders - modo desarrollo sin autenticación");
+}
+
+// Función para autenticar con Google usando Popup
+export const signInWithGoogle = async (): Promise<GoogleUser> => {
+  if (!auth || !provider) {
+    console.warn("🚫 Firebase no inicializado - retornando usuario demo");
+    return {
+      uid: "demo-uid",
+      email: "demo@company.com",
+      displayName: "Usuario Demo"
+    } as GoogleUser;
+  }
+
+  try {
+    console.log("🔐 Iniciando autenticación con Google...");
+    const result = await signInWithPopup(auth, provider);
+    
+    if (!result.user || !result.user.email) {
+      throw new Error("No se pudo obtener un correo electrónico válido de Google");
+    }
+    
+    console.log("✅ Usuario autenticado con éxito:", result.user);
+    return result.user as GoogleUser;
+  } catch (error) {
+    console.error("❌ Error en autenticación con Google:", error);
+    throw error;
+  }
+};
+
+// Función para autenticar con Google usando Redirect
+export const signInWithGoogleRedirect = async () => {
+  console.warn("🚫 signInWithGoogleRedirect deshabilitado");
+  throw new Error("Firebase deshabilitado");
+};
+
+// Función para manejar el resultado de la redirección
+export const handleGoogleRedirect = async (): Promise<GoogleUser | null> => {
+  console.warn("🚫 handleGoogleRedirect deshabilitado");
+  return null;
+};
+
+// Función para obtener la información del usuario actual
+export const getCurrentUser = (): Promise<GoogleUser | null> => {
+  return new Promise((resolve) => {
+    if (!auth) {
+      console.warn("🚫 Firebase no inicializado - getCurrentUser retorna null");
+      resolve(null);
+      return;
+    }
+    
+    const unsubscribe = auth.onAuthStateChanged((user: any) => {
+      unsubscribe();
+      resolve(user);
+    });
+  });
+};
+
+// Función para cerrar sesión
+export const signOut = () => {
+  if (!auth) {
+    console.warn("🚫 Firebase no inicializado - signOut simulado");
+    return Promise.resolve();
+  }
+  
+  return auth.signOut();
+};
+
+// Aliases para backward compatibility
+export const loginWithGoogle = signInWithGoogle;
+export const handleRedirectResult = handleGoogleRedirect;
+
+// Login con email (implementación dummy para compatibilidad)
+export const loginWithEmail = async (email: string, password: string) => {
+  throw new Error("Email login not implemented in this version");
+};
+
+// Export auth (puede ser null si Firebase no está inicializado)
+export { auth };
