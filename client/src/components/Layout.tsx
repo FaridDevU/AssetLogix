@@ -63,7 +63,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 pt-12">
       {/* Sidebar para mobile con overlay */}
       <AnimatePresence>
         {sidebarOpen && (

@@ -58,6 +58,7 @@ export function ThemeProvider({
 
   return (
     <ThemeProviderContext.Provider {...props} value={value}>
+      <DemoBanner />
       {children}
     </ThemeProviderContext.Provider>
   );
@@ -71,3 +72,36 @@ export const useTheme = () => {
 
   return context;
 };
+
+// Demo Banner Component
+function DemoBanner() {
+  const [isVisible, setIsVisible] = useState(() => {
+    return localStorage.getItem('demo-banner-dismissed') !== 'true';
+  });
+
+  const dismissBanner = () => {
+    localStorage.setItem('demo-banner-dismissed', 'true');
+    setIsVisible(false);
+  };
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 bg-orange-500 text-white px-4 py-2 flex items-center justify-between shadow-md">
+      <div className="flex items-center gap-2">
+        <span className="text-sm font-medium">
+          ⚠️ This is a demo version - most functions are restricted and may not work properly
+        </span>
+      </div>
+      <button 
+        onClick={dismissBanner}
+        className="ml-4 text-white hover:text-orange-100 transition-colors"
+        aria-label="Dismiss banner"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  );
+}
