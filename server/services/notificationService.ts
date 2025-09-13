@@ -37,7 +37,7 @@ async function sendEmailNotification({
 
   const msg: MailDataRequired = {
     to,
-    from: process.env.SENDGRID_FROM_EMAIL || 'notificaciones@sistemagm.com',
+    from: process.env.SENDGRID_FROM_EMAIL || 'notificaciones@assetlogix.com',
     subject,
     text,
     html: html || text.replace(/\n/g, '<br>'),

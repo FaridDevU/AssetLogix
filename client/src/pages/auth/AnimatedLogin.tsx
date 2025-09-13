@@ -333,7 +333,7 @@ export default function AnimatedLogin() {
           >
             <motion.img 
               src={CompanyLogo} 
-              alt="IVUMSA Logo" 
+              alt="AssetLogix Logo" 
               className="h-20 object-contain"
               initial={{ y: -20 }}
               animate={{ y: 0 }}
@@ -586,7 +586,7 @@ export default function AnimatedLogin() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7, duration: 0.5 }}
               >
-                IVUMSA - PROYECTA - CONSTRUYE
+                AssetLogix - GESTIONA - OPTIMIZA
               </motion.p>
               <motion.p 
                 className="text-xs text-gray-400"
@@ -594,7 +594,7 @@ export default function AnimatedLogin() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
               >
-                © 2023-2025 IVUMSA SistemaGM. Todos los derechos reservados.
+                © 2023-2025 AssetLogix. Todos los derechos reservados.
               </motion.p>
             </motion.div>
           </CardFooter>
@@ -609,7 +609,7 @@ export default function AnimatedLogin() {
               Crear una cuenta nueva
             </DialogTitle>
             <DialogDescription className="text-center text-gray-600">
-              Regístrese para acceder al SistemaGM de IVUMSA
+              Regístrese para acceder al Sistema de AssetLogix
             </DialogDescription>
           </DialogHeader>
           
@@ -718,7 +718,7 @@ export default function AnimatedLogin() {
             </div>
             
             <p className="text-xs text-center text-gray-500 mt-4">
-              Al registrarse, acepta los términos de servicio y la política de privacidad de IVUMSA.
+              Al registrarse, acepta los términos de servicio y la política de privacidad de AssetLogix.
             </p>
           </form>
         </DialogContent>

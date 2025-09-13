@@ -316,7 +316,7 @@ export default function Register({ register }: RegisterProps) {
               </Button>
             </div>
             <p className="text-xs text-center text-secondary-500">
-              © 2023 SistemaGM. Todos los derechos reservados.
+              © 2023 AssetLogix. Todos los derechos reservados.
             </p>
           </CardFooter>
         </Card>

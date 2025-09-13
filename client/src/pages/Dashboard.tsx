@@ -287,7 +287,7 @@ const Dashboard: FC = () => {
               {greeting}, {user?.name}
             </h1>
             <p className="text-gray-600">
-              Bienvenido al panel de control de SistemaGM
+              Bienvenido al panel de control de AssetLogix
             </p>
           </div>
           <div className="mt-4 sm:mt-0 flex space-x-3">

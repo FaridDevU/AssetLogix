@@ -175,7 +175,7 @@ export default function Login({ login }: LoginProps) {
                   </svg>
                 </motion.div>
               </div>
-              <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-blue-500 text-transparent bg-clip-text">SistemaGM</CardTitle>
+              <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-blue-500 text-transparent bg-clip-text">AssetLogix</CardTitle>
               <CardDescription>
                 Sistema Integrado de Gestión Documental y Mantenimiento
               </CardDescription>
@@ -358,7 +358,7 @@ export default function Login({ login }: LoginProps) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
             >
-              © 2023 SistemaGM. Todos los derechos reservados.
+              © 2023 AssetLogix. Todos los derechos reservados.
             </motion.p>
           </CardFooter>
         </Card>
