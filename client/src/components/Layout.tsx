@@ -91,7 +91,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
           >
             <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
               <div className="flex items-center">
-                <span className="text-xl font-semibold text-gray-800">SGE-DOC</span>
+                <span className="text-xl font-semibold text-gray-800">AssetLogix</span>
               </div>
               <button
                 className="md:hidden text-gray-500 hover:text-gray-600"
@@ -151,7 +151,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
       {/* Sidebar estática para pantallas medianas y grandes */}
       <aside className="hidden md:flex md:flex-col md:w-64 md:fixed md:inset-y-0 bg-white border-r border-gray-200">
         <div className="flex items-center h-16 px-4 border-b border-gray-200">
-          <span className="text-xl font-semibold text-gray-800">SGE-DOC</span>
+          <span className="text-xl font-semibold text-gray-800">AssetLogix</span>
         </div>
         <nav className="flex flex-col flex-1 overflow-y-auto">
           <div className="px-2 py-4">

@@ -53,7 +53,12 @@
         progress: 65,
         startDate: "2024-01-15",
         endDate: "2024-12-31",
-        budget: 150000
+        budget: 150000,
+        location: "Centro de la Ciudad",
+        clientName: "Constructora Demo S.A.",
+        createdBy: "admin",
+        createdAt: "2024-01-15T00:00:00Z",
+        updatedAt: "2024-09-15T00:00:00Z"
       },
       {
         id: 2,
@@ -63,7 +68,12 @@
         progress: 30,
         startDate: "2024-10-01",
         endDate: "2024-12-31",
-        budget: 25000
+        budget: 25000,
+        location: "Instalaciones Principales",
+        clientName: "Interno",
+        createdBy: "technician",
+        createdAt: "2024-10-01T00:00:00Z",
+        updatedAt: "2024-10-15T00:00:00Z"
       },
       {
         id: 3,
@@ -73,7 +83,12 @@
         progress: 100,
         startDate: "2024-03-01",
         endDate: "2024-08-30",
-        budget: 80000
+        budget: 80000,
+        location: "Edificio Principal",
+        clientName: "HVAC Solutions Corp",
+        createdBy: "admin",
+        createdAt: "2024-03-01T00:00:00Z",
+        updatedAt: "2024-08-30T00:00:00Z"
       }
     ];
 
@@ -81,33 +96,42 @@
     const mockDocuments = [
       {
         id: 1,
-        name: "Manual de Usuario AssetLogix.pdf",
-        type: "manual",
-        size: "2.5 MB",
+        name: "Manual de Usuario AssetLogix",
+        type: "pdf",
+        size: 2621440, // 2.5 MB in bytes
         uploadDate: "2024-09-01",
         category: "documentation",
         currentVersion: 1,
-        originalExtension: ".pdf"
+        originalExtension: ".pdf",
+        createdAt: "2024-09-01T08:00:00Z",
+        updatedAt: "2024-09-01T08:00:00Z",
+        folderId: null
       },
       {
         id: 2,
-        name: "Protocolo Mantenimiento Preventivo.docx",
-        type: "protocol",
-        size: "890 KB",
+        name: "Protocolo Mantenimiento Preventivo",
+        type: "docx", 
+        size: 911360, // 890 KB in bytes
         uploadDate: "2024-09-05",
         category: "maintenance",
         currentVersion: 2,
-        originalExtension: ".docx"
+        originalExtension: ".docx",
+        createdAt: "2024-09-05T10:30:00Z",
+        updatedAt: "2024-09-15T14:20:00Z",
+        folderId: 2
       },
       {
         id: 3,
-        name: "Reporte Inventario Agosto 2024.xlsx",
-        type: "report",
-        size: "1.2 MB",
+        name: "Reporte Inventario Agosto 2024",
+        type: "xlsx",
+        size: 1258291, // 1.2 MB in bytes
         uploadDate: "2024-09-10",
         category: "inventory",
         currentVersion: 1,
-        originalExtension: ".xlsx"
+        originalExtension: ".xlsx",
+        createdAt: "2024-09-10T16:45:00Z",
+        updatedAt: "2024-09-10T16:45:00Z",
+        folderId: 3
       }
     ];
 
@@ -139,28 +163,61 @@
         id: 1,
         name: "Generador Diesel CAT 100KW",
         type: "generator",
+        category: "energy",
         status: "operational",
+        condition: "excellent",
         location: "Sala de Máquinas A",
+        serialNumber: "CAT-100KW-2023-001",
+        model: "CAT DE100E0",
+        brand: "Caterpillar",
+        purchaseDate: "2023-01-15",
+        purchasePrice: 45000,
+        warrantyExpiration: "2026-01-15",
         lastMaintenance: "2024-08-15",
-        nextMaintenance: "2024-11-15"
+        nextMaintenance: "2024-11-15",
+        notes: "Generador de respaldo principal para el edificio",
+        createdAt: "2023-01-15T00:00:00Z",
+        updatedAt: "2024-08-15T00:00:00Z"
       },
       {
         id: 2,
         name: "Compresor de Aire Industrial",
         type: "compressor",
+        category: "tools",
         status: "maintenance",
+        condition: "good",
         location: "Taller Principal",
+        serialNumber: "COMP-IND-2022-002",
+        model: "Atlas Copco GA15",
+        brand: "Atlas Copco",
+        purchaseDate: "2022-06-20",
+        purchasePrice: 12000,
+        warrantyExpiration: "2025-06-20",
         lastMaintenance: "2024-09-01",
-        nextMaintenance: "2024-12-01"
+        nextMaintenance: "2024-12-01",
+        notes: "En mantenimiento preventivo programado",
+        createdAt: "2022-06-20T00:00:00Z",
+        updatedAt: "2024-09-01T00:00:00Z"
       },
       {
         id: 3,
         name: "Bomba Centrífuga 50HP",
         type: "pump",
+        category: "hydraulic",
         status: "operational",
+        condition: "good",
         location: "Planta Baja",
+        serialNumber: "PUMP-50HP-2021-003",
+        model: "Grundfos CR64-2",
+        brand: "Grundfos",
+        purchaseDate: "2021-03-10",
+        purchasePrice: 8500,
+        warrantyExpiration: "2024-03-10",
         lastMaintenance: "2024-07-20",
-        nextMaintenance: "2024-10-20"
+        nextMaintenance: "2024-10-20",
+        notes: "Sistema de agua principal del edificio",
+        createdAt: "2021-03-10T00:00:00Z",
+        updatedAt: "2024-07-20T00:00:00Z"
       }
     ];
 
