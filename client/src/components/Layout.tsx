@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { useLocation, Link } from 'wouter';
+import { useLocation } from 'wouter';
 import { 
-  ChevronLeft, 
   LayoutDashboard, 
   Settings, 
   LogOut, 
   Menu, 
   X, 
   FileText, 
-  Wrench,
   HardDrive, 
   Users,
   Bell,
@@ -17,7 +15,6 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 
 export interface LayoutProps {
@@ -30,10 +27,9 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
   const [, setLocation] = useLocation();
   const { user, logoutMutation } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const { toast } = useToast();
 
   const handleLogout = async () => {
-    if (isLoggingOut) return; // evitar múltiples clics
+    if (isLoggingOut) return;
     setIsLoggingOut(true);
     try {
       await logoutMutation.mutateAsync();
@@ -42,9 +38,8 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
     }
   };
 
-  // Filtrar navegación basada en rol
   const getNavigation = () => {
-    const baseNav = [
+    return [
       { name: 'Dashboard', href: '/', icon: LayoutDashboard, current: currentModule === 'dashboard' },
       { name: 'Documentos', href: '/documents', icon: FileText, current: currentModule === 'documentos' },
       { name: 'Inventario', href: '/inventory', icon: HardDrive, current: currentModule === 'inventario' },
@@ -52,8 +47,6 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
       { name: 'Gestión de Usuarios', href: '/users', icon: Users, current: currentModule === 'empleados' },
       { name: 'Configuración', href: '/settings', icon: Settings, current: currentModule === 'configuracion' },
     ];
-    
-    return baseNav;
   };
   
   const navigation = getNavigation();
@@ -63,8 +56,8 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 pt-12">
-      {/* Sidebar para mobile con overlay */}
+    <div className="flex h-screen bg-gray-50">
+      {/* Overlay para móvil */}
       <AnimatePresence>
         {sidebarOpen && (
           <motion.div
@@ -79,56 +72,51 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
+      {/* Sidebar móvil */}
       <AnimatePresence>
         {sidebarOpen && (
           <motion.aside
-            initial={{ x: -240 }}
+            initial={{ x: -280 }}
             animate={{ x: 0 }}
-            exit={{ x: -240 }}
-            className="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 md:relative md:translate-x-0"
+            exit={{ x: -280 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-200 shadow-xl md:hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-              <div className="flex items-center">
-                <span className="text-xl font-semibold text-gray-800">AssetLogix</span>
-              </div>
+              <span className="text-xl font-semibold text-gray-800">AssetLogix</span>
               <button
-                className="md:hidden text-gray-500 hover:text-gray-600"
+                className="text-gray-500 hover:text-gray-700 p-2 rounded-md hover:bg-gray-100"
                 onClick={toggleSidebar}
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <nav className="flex flex-col h-0 flex-1 overflow-y-auto">
-              <div className="px-2 py-4">
+            <nav className="flex flex-col flex-1 overflow-y-auto bg-white">
+              <div className="px-3 py-4">
                 <div className="space-y-1">
                   {navigation.map((item) => (
-                    <div
+                    <button
                       key={item.name}
-                      className="w-full"
+                      className={`w-full group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                        item.current 
+                          ? 'bg-teal-50 text-teal-700 border border-teal-200' 
+                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      }`}
                       onClick={() => {
                         setLocation(item.href);
                         setSidebarOpen(false);
                       }}
                     >
-                      <a
-                        className={`group flex items-center px-3 py-2 text-base font-medium rounded-md cursor-pointer ${
+                      <item.icon
+                        className={`mr-3 h-5 w-5 flex-shrink-0 ${
                           item.current 
-                            ? 'bg-teal-50 text-teal-600' 
-                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                            ? 'text-teal-600' 
+                            : 'text-gray-400 group-hover:text-gray-500'
                         }`}
-                      >
-                        <item.icon
-                          className={`mr-3 h-6 w-6 flex-shrink-0 ${
-                            item.current 
-                              ? 'text-teal-500' 
-                              : 'text-gray-400 group-hover:text-gray-500'
-                          }`}
-                        />
-                        {item.name}
-                      </a>
-                    </div>
+                      />
+                      {item.name}
+                    </button>
                   ))}
                 </div>
               </div>
@@ -148,8 +136,8 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
         )}
       </AnimatePresence>
 
-      {/* Sidebar estática para pantallas medianas y grandes */}
-      <aside className="hidden md:flex md:flex-col md:w-64 md:fixed md:inset-y-0 bg-white border-r border-gray-200">
+      {/* Sidebar estático para desktop */}
+      <aside className="hidden md:flex md:flex-col md:w-64 md:fixed md:inset-y-0 bg-white border-r border-gray-200 pt-12">
         <div className="flex items-center h-16 px-4 border-b border-gray-200">
           <span className="text-xl font-semibold text-gray-800">AssetLogix</span>
         </div>
@@ -157,28 +145,24 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
           <div className="px-2 py-4">
             <div className="space-y-1">
               {navigation.map((item) => (
-                <div 
+                <button 
                   key={item.name}
-                  className="w-full"
+                  className={`w-full group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
+                    item.current 
+                      ? 'bg-teal-50 text-teal-700 border border-teal-200' 
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
                   onClick={() => setLocation(item.href)}
                 >
-                  <a
-                    className={`group flex items-center px-3 py-2 text-base font-medium rounded-md cursor-pointer ${
+                  <item.icon
+                    className={`mr-3 h-5 w-5 flex-shrink-0 ${
                       item.current 
-                        ? 'bg-teal-50 text-teal-600' 
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'text-teal-600' 
+                        : 'text-gray-400 group-hover:text-gray-500'
                     }`}
-                  >
-                    <item.icon
-                      className={`mr-3 h-6 w-6 flex-shrink-0 ${
-                        item.current 
-                          ? 'text-teal-500' 
-                          : 'text-gray-400 group-hover:text-gray-500'
-                      }`}
-                    />
-                    {item.name}
-                  </a>
-                </div>
+                  />
+                  {item.name}
+                </button>
               ))}
             </div>
           </div>
@@ -197,20 +181,19 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
       </aside>
 
       {/* Contenido principal */}
-      <div className="flex flex-col flex-1 md:pl-64">
-        {/* Barra superior */}
-        <header className="sticky top-0 z-10 bg-white border-b border-gray-200">
+      <div className="flex flex-col flex-1 md:pl-64 pt-12">
+        <header className="sticky top-12 z-10 bg-white border-b border-gray-200">
           <div className="flex items-center justify-between h-16 px-4">
             <div className="flex items-center md:hidden">
               <button
-                className="text-gray-500 hover:text-gray-600 focus:outline-none"
+                className="text-gray-500 hover:text-gray-700 focus:outline-none p-2 rounded-md hover:bg-gray-100"
                 onClick={toggleSidebar}
               >
                 <Menu className="w-6 h-6" />
               </button>
             </div>
             <div className="flex items-center ml-auto">
-              <button className="p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none">
+              <button className="p-2 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none hover:bg-gray-100">
                 <Bell className="w-6 h-6" />
               </button>
               <div className="ml-3 relative">
@@ -231,7 +214,6 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
           </div>
         </header>
 
-        {/* Contenido de la página */}
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>
