@@ -52,7 +52,9 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
   const navigation = getNavigation();
 
   const toggleSidebar = () => {
+    console.log('Toggle sidebar clicked, current state:', sidebarOpen);
     setSidebarOpen(!sidebarOpen);
+    console.log('New sidebar state will be:', !sidebarOpen);
   };
 
   return (
@@ -64,10 +66,10 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-[50] md:hidden"
             onClick={toggleSidebar}
           >
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -80,10 +82,10 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
             animate={{ x: 0 }}
             exit={{ x: -280 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-200 shadow-xl md:hidden"
+            className="fixed inset-y-0 left-0 z-[60] w-80 bg-white border-r border-gray-200 shadow-2xl md:hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
+            <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 bg-white">
               <span className="text-xl font-semibold text-gray-800">AssetLogix</span>
               <button
                 className="text-gray-500 hover:text-gray-700 p-2 rounded-md hover:bg-gray-100"
@@ -92,16 +94,16 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <nav className="flex flex-col flex-1 overflow-y-auto bg-white">
-              <div className="px-3 py-4">
-                <div className="space-y-1">
+            <div className="flex flex-col flex-1 overflow-hidden bg-white">
+              <div className="flex-1 overflow-y-auto px-3 py-4">
+                <div className="space-y-2">
                   {navigation.map((item) => (
                     <button
                       key={item.name}
-                      className={`w-full group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                      className={`w-full group flex items-center px-4 py-4 text-base font-medium rounded-lg transition-colors duration-200 ${
                         item.current 
                           ? 'bg-teal-50 text-teal-700 border border-teal-200' 
-                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                       }`}
                       onClick={() => {
                         setLocation(item.href);
@@ -109,10 +111,10 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
                       }}
                     >
                       <item.icon
-                        className={`mr-3 h-5 w-5 flex-shrink-0 ${
+                        className={`mr-4 h-6 w-6 flex-shrink-0 ${
                           item.current 
                             ? 'text-teal-600' 
-                            : 'text-gray-400 group-hover:text-gray-500'
+                            : 'text-gray-500 group-hover:text-gray-700'
                         }`}
                       />
                       {item.name}
@@ -120,18 +122,18 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
                   ))}
                 </div>
               </div>
-              <div className="mt-auto p-4 border-t border-gray-200">
+              <div className="p-4 border-t border-gray-200 bg-white">
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                  className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 py-3 text-base"
                   disabled={isLoggingOut}
                   onClick={handleLogout}
                 >
-                  <LogOut className="mr-3 h-5 w-5" />
+                  <LogOut className="mr-4 h-6 w-6" />
                   Cerrar sesión
                 </Button>
               </div>
-            </nav>
+            </div>
           </motion.aside>
         )}
       </AnimatePresence>
@@ -186,8 +188,9 @@ const Layout: React.FC<LayoutProps> = ({ children, currentModule }) => {
           <div className="flex items-center justify-between h-16 px-4">
             <div className="flex items-center md:hidden">
               <button
-                className="text-gray-500 hover:text-gray-700 focus:outline-none p-2 rounded-md hover:bg-gray-100"
+                className="text-gray-700 hover:text-gray-900 focus:outline-none p-3 rounded-md hover:bg-gray-100 border border-gray-300"
                 onClick={toggleSidebar}
+                style={{ minHeight: '44px', minWidth: '44px' }}
               >
                 <Menu className="w-6 h-6" />
               </button>
