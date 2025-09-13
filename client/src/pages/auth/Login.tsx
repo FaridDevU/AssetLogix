@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { loginWithGoogle, handleRedirectResult, loginWithEmail } from "@/lib/firebase";
+import { loginWithGoogle, loginWithEmail } from "@/lib/firebase";
 import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
 

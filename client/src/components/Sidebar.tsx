@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { UserContextType } from "@/App";
+import type { UserContextType } from "@/App";
 
 interface SidebarProps {
   open: boolean;
