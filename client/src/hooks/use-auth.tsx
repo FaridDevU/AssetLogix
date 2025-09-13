@@ -47,10 +47,44 @@ function AuthProvider({ children }: { children: ReactNode }) {
     error,
   } = useQuery<User | null, Error>({
     queryKey: ["/api/user"],
-    queryFn: getQueryFn<User | null>({ on401: "returnNull" }),
+    queryFn: async () => {
+      try {
+        // Check if we have a demo session
+        const hasSession = localStorage.getItem("demo-session");
+        
+        const res = await fetch("/api/user", {
+          headers: {
+            "x-demo-session": hasSession || "inactive"
+          }
+        });
+        
+        if (!res.ok) {
+          if (res.status === 401) {
+            // Clear any invalid session data
+            localStorage.removeItem("demo-session");
+            return null; // No hay usuario autenticado
+          }
+          throw new Error(`Error ${res.status}: ${res.statusText}`);
+        }
+        return await res.json();
+      } catch (error) {
+        if (error instanceof Error && error.message.includes('401')) {
+          localStorage.removeItem("demo-session");
+          return null;
+        }
+        throw error;
+      }
+    },
     staleTime: Infinity,
     gcTime: 30 * 60 * 1000, // 30 minutos
     refetchOnWindowFocus: false,
+    retry: (failureCount, error) => {
+      // No reintentar en errores 401 (no autenticado)
+      if (error instanceof Error && error.message.includes('401')) {
+        return false;
+      }
+      return failureCount < 3;
+    },
   });
 
   const loginMutation = useMutation({
@@ -63,6 +97,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
       return await res.json();
     },
     onSuccess: (user: User) => {
+      // Establecer sesión demo en localStorage
+      localStorage.setItem("demo-session", "active");
+      
       // Guardar usuario en cache y navegar
       queryClient.setQueryData(["/api/user"], user);
       toast({
@@ -72,6 +109,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
       setLocation("/");
     },
     onError: (error: Error) => {
+      // Limpiar cualquier sesión inválida
+      localStorage.removeItem("demo-session");
+      
       toast({
         title: "Error al iniciar sesión",
         description: error.message || "Credenciales incorrectas",
@@ -118,14 +158,17 @@ function AuthProvider({ children }: { children: ReactNode }) {
       }
     },
     onMutate: () => {
-      // Limpiar inmediatamente el estado del usuario
+      // Limpiar inmediatamente el estado del usuario y la sesión demo
+      localStorage.removeItem("demo-session");
       queryClient.setQueryData(["/api/user"], null);
     },
     onSettled: () => {
       // Se ejecuta siempre, sin importar si fue exitoso o falló
       
-      // Limpiar completamente todo el cache
+      // Limpiar completamente todo el cache y storage
       queryClient.clear();
+      localStorage.clear();
+      sessionStorage.clear();
       
       // Asegurarse de que el usuario esté null
       queryClient.setQueryData(["/api/user"], null);
@@ -134,9 +177,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         title: "Sesión cerrada",
         description: "Has cerrado sesión correctamente",
       });
-      // Limpiar storage sin forzar recarga completa; AuthGate mostrará el login
-      localStorage.clear();
-      sessionStorage.clear();
+      
       // Navegar a /auth mediante wouter si es necesario
       try {
         setLocation("/auth");

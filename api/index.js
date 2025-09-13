@@ -226,9 +226,17 @@
 
     console.log("API " + req.method + " " + path);
 
-    // Handle user endpoint - return mock user for demo
+    // Handle user endpoint - check for demo session in localStorage (simulated via headers)
     if (path === "/user" && req.method === "GET") {
-      // For demo purposes, return a default user instead of 401
+      // Check if we have a demo session indicator
+      // In a real app this would be cookies/jwt, for demo we'll use a simple approach
+      const hasSession = req.headers["x-demo-session"];
+      
+      if (!hasSession || hasSession !== "active") {
+        return res.status(401).json({ message: "No autenticado" });
+      }
+      
+      // Return the demo user if session is active
       const demoUser = mockUsers[0]; // Admin user
       const { password: _, ...userResult } = demoUser;
       return res.status(200).json(userResult);

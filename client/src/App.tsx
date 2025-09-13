@@ -263,6 +263,7 @@ function AuthGate() {
     );
   }
 
+  // Si no hay usuario, mostrar siempre el login
   if (!user) {
     return <AnimatedLogin />;
   }

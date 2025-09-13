@@ -328,7 +328,7 @@ export default function Login({ login }: LoginProps) {
                 >
                   <p className="font-medium">Administrador</p>
                   <p>usuario: admin</p>
-                  <p>clave: admin123</p>
+                  <p>clave: 123</p>
                 </motion.div>
                 <motion.div 
                   className="border border-secondary-200 rounded p-2"
