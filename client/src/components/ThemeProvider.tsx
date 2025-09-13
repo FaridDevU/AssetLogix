@@ -73,7 +73,6 @@ export const useTheme = () => {
   return context;
 };
 
-// Demo Banner Component
 function DemoBanner() {
   const [isVisible, setIsVisible] = useState(() => {
     return localStorage.getItem('demo-banner-dismissed') !== 'true';

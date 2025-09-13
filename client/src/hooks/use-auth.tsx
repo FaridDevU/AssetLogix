@@ -9,7 +9,6 @@ import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "./use-toast";
 import { useLocation } from "wouter";
 
-// Tipos
 type LoginData = {
   username: string;
   password: string;
@@ -32,15 +31,12 @@ type AuthContextType = {
   registerMutation: UseMutationResult<User, Error, RegisterData>;
 };
 
-// Contexto
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Provider
 function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
 
-  // Estado real de autenticación consultando el backend
   const {
     data: user,
     isLoading,
@@ -49,7 +45,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
     queryKey: ["/api/user"],
     queryFn: async () => {
       try {
-        // Check if we have a demo session
         const hasSession = localStorage.getItem("demo-session");
         
         const res = await fetch("/api/user", {
@@ -60,9 +55,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
         
         if (!res.ok) {
           if (res.status === 401) {
-            // Clear any invalid session data
             localStorage.removeItem("demo-session");
-            return null; // No hay usuario autenticado
+            return null;
           }
           throw new Error(`Error ${res.status}: ${res.statusText}`);
         }
@@ -76,10 +70,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
       }
     },
     staleTime: Infinity,
-    gcTime: 30 * 60 * 1000, // 30 minutos
+    gcTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
     retry: (failureCount, error) => {
-      // No reintentar en errores 401 (no autenticado)
       if (error instanceof Error && error.message.includes('401')) {
         return false;
       }
@@ -97,10 +90,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       return await res.json();
     },
     onSuccess: (user: User) => {
-      // Establecer sesión demo en localStorage
       localStorage.setItem("demo-session", "active");
-      
-      // Guardar usuario en cache y navegar
       queryClient.setQueryData(["/api/user"], user);
       toast({
         title: "Sesión iniciada",
@@ -109,9 +99,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       setLocation("/");
     },
     onError: (error: Error) => {
-      // Limpiar cualquier sesión inválida
       localStorage.removeItem("demo-session");
-      
       toast({
         title: "Error al iniciar sesión",
         description: error.message || "Credenciales incorrectas",
@@ -152,25 +140,18 @@ function AuthProvider({ children }: { children: ReactNode }) {
         const res = await apiRequest("POST", "/api/logout");
         return res;
       } catch (error) {
-        // Incluso si falla, proceder con logout local
         console.log("Logout del servidor falló, procediendo localmente");
         return null;
       }
     },
     onMutate: () => {
-      // Limpiar inmediatamente el estado del usuario y la sesión demo
       localStorage.removeItem("demo-session");
       queryClient.setQueryData(["/api/user"], null);
     },
     onSettled: () => {
-      // Se ejecuta siempre, sin importar si fue exitoso o falló
-      
-      // Limpiar completamente todo el cache y storage
       queryClient.clear();
       localStorage.clear();
       sessionStorage.clear();
-      
-      // Asegurarse de que el usuario esté null
       queryClient.setQueryData(["/api/user"], null);
       
       toast({
@@ -178,7 +159,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
         description: "Has cerrado sesión correctamente",
       });
       
-      // Navegar a /auth mediante wouter si es necesario
       try {
         setLocation("/auth");
       } catch {}
@@ -201,7 +181,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Hook
 function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
@@ -210,5 +189,4 @@ function useAuth() {
   return context;
 }
 
-// Exportaciones
 export { AuthProvider, useAuth };

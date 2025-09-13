@@ -24,38 +24,9 @@ export default function Login({ login }: LoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isProcessingRedirect, setIsProcessingRedirect] = useState(true);
+  const [isProcessingRedirect, setIsProcessingRedirect] = useState(false);
   const { toast } = useToast();
   const [, setLocation] = useLocation();
-
-  // Process redirect result from Google login
-  useEffect(() => {
-    const processRedirect = async () => {
-      try {
-        setIsProcessingRedirect(true);
-        // Simplified - no redirect handling needed for demo
-        // const user = await handleRedirectResult();
-        // if (user) {
-        //   toast({
-        //     title: "Inicio de sesión exitoso",
-        //     description: `Bienvenido, ${user.displayName || user.email}`,
-        //   });
-        //   setLocation("/");
-        // }
-      } catch (error) {
-        console.error("Login redirect error:", error);
-        toast({
-          title: "Error de inicio de sesión",
-          description: "Hubo un problema al iniciar sesión con Google",
-          variant: "destructive",
-        });
-      } finally {
-        setIsProcessingRedirect(false);
-      }
-    };
-
-    processRedirect();
-  }, [toast, setLocation]);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,7 +60,6 @@ export default function Login({ login }: LoginProps) {
     try {
       setIsLoading(true);
       await loginWithGoogle();
-      // No need to handle success here as it will redirect to Google and then back
     } catch (error) {
       console.error("Google login error:", error);
       toast({
@@ -110,13 +80,12 @@ export default function Login({ login }: LoginProps) {
       <div className="min-h-screen w-full flex items-center justify-center bg-secondary-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-secondary-700">Procesando inicio de sesión...</p>
+          <p className="mt-4 text-secondary-700">Cargando...</p>
         </div>
       </div>
     );
   }
 
-  // Definición de animaciones
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -182,7 +151,6 @@ export default function Login({ login }: LoginProps) {
             </CardHeader>
           </motion.div>
           <CardContent className="space-y-4">
-            {/* Google Login Button */}
             <motion.div 
               className="flex flex-col items-center gap-2"
               variants={itemVariants}
@@ -358,7 +326,7 @@ export default function Login({ login }: LoginProps) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
             >
-              © 2023 AssetLogix. Todos los derechos reservados.
+              © 2025 AssetLogix. Todos los derechos reservados.
             </motion.p>
           </CardFooter>
         </Card>

@@ -224,20 +224,14 @@
     const url = new URL(req.url, "https://" + req.headers.host);
     const path = url.pathname.replace("/api", "");
 
-    console.log("API " + req.method + " " + path);
-
-    // Handle user endpoint - check for demo session in localStorage (simulated via headers)
     if (path === "/user" && req.method === "GET") {
-      // Check if we have a demo session indicator
-      // In a real app this would be cookies/jwt, for demo we'll use a simple approach
       const hasSession = req.headers["x-demo-session"];
       
       if (!hasSession || hasSession !== "active") {
         return res.status(401).json({ message: "No autenticado" });
       }
       
-      // Return the demo user if session is active
-      const demoUser = mockUsers[0]; // Admin user
+      const demoUser = mockUsers[0];
       const { password: _, ...userResult } = demoUser;
       return res.status(200).json(userResult);
     }
@@ -245,8 +239,6 @@
     if (path === "/login" && req.method === "POST") {
       const body = req.body || {};
       const { username, password } = body;
-      
-      console.log("Login attempt:", username);
       
       if (!username || !password) {
         return res.status(400).json({ message: "Username y password requeridos" });
@@ -258,20 +250,16 @@
 
       if (user) {
         const { password: _, ...userResult } = user;
-        console.log("Login success");
         return res.status(200).json(userResult);
       }
 
-      console.log("Login failed");
       return res.status(401).json({ message: "Credenciales invalidas" });
     }
 
     if (path === "/logout" && req.method === "POST") {
-      console.log("Logout");
       return res.status(200).json({ message: "Logout exitoso" });
     }
 
-    // Demo data endpoints
     if (path === "/projects" && req.method === "GET") {
       return res.status(200).json(mockProjects);
     }

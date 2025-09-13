@@ -248,7 +248,6 @@ function App() {
   );
 }
 
-// Renderiza login inmediatamente si no hay usuario, sin esperar redirecciones
 function AuthGate() {
   const { user, isLoading } = useAuth();
 
@@ -263,7 +262,6 @@ function AuthGate() {
     );
   }
 
-  // Si no hay usuario, mostrar siempre el login
   if (!user) {
     return <AnimatedLogin />;
   }
