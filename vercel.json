@@ -7,9 +7,28 @@
       "config": {
         "distDir": "dist/client"
       }
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/login",
+      "dest": "/api/index.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/api/logout", 
+      "dest": "/api/index.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/api/user",
+      "dest": "/api/index.js", 
+      "methods": ["GET", "OPTIONS"]
+    },
     {
       "src": "/api/(.*)",
       "dest": "/api/index.js"

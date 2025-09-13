@@ -33,15 +33,15 @@ export default function Login({ login }: LoginProps) {
     const processRedirect = async () => {
       try {
         setIsProcessingRedirect(true);
-        const user = await handleRedirectResult();
-        if (user) {
-          // User successfully logged in with Google
-          toast({
-            title: "Inicio de sesión exitoso",
-            description: `Bienvenido, ${user.displayName || user.email}`,
-          });
-          setLocation("/");
-        }
+        // Simplified - no redirect handling needed for demo
+        // const user = await handleRedirectResult();
+        // if (user) {
+        //   toast({
+        //     title: "Inicio de sesión exitoso",
+        //     description: `Bienvenido, ${user.displayName || user.email}`,
+        //   });
+        //   setLocation("/");
+        // }
       } catch (error) {
         console.error("Login redirect error:", error);
         toast({

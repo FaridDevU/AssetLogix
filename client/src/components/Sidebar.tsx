@@ -1,12 +1,12 @@
 import { Link, useLocation } from "wouter";
-import type { UserContextType } from "@/App";
+import type { User } from "@shared/schema";
 
 interface SidebarProps {
   open: boolean;
   currentModule: "documentos" | "mantenimiento";
   setCurrentModule: (module: "documentos" | "mantenimiento") => void;
   toggleSidebar: () => void;
-  userContext: UserContextType;
+  userContext: User | null;
 }
 
 export default function Sidebar({ 
@@ -17,7 +17,7 @@ export default function Sidebar({
   userContext
 }: SidebarProps) {
   const [location] = useLocation();
-  const { user } = userContext;
+  const user = userContext;
 
   const getActiveClass = (path: string) => {
     return location === path 

@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { loginWithGoogle, handleRedirectResult } from "@/lib/firebase";
+import { loginWithGoogle } from "@/lib/firebase";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface RegisterProps {
@@ -36,15 +36,15 @@ export default function Register({ register }: RegisterProps) {
     const processRedirect = async () => {
       try {
         setIsProcessingRedirect(true);
-        const user = await handleRedirectResult();
-        if (user) {
-          // User successfully logged in with Google
-          toast({
-            title: "Registro exitoso",
-            description: `Bienvenido, ${user.displayName || user.email}`,
-          });
-          setLocation("/");
-        }
+        // Simplified - no redirect handling needed for demo
+        // const user = await handleRedirectResult();
+        // if (user) {
+        //   toast({
+        //     title: "Registro exitoso",
+        //     description: `Bienvenido, ${user.displayName || user.email}`,
+        //   });
+        //   setLocation("/");
+        // }
       } catch (error) {
         console.error("Login redirect error:", error);
         toast({
